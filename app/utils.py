@@ -2,7 +2,6 @@ from pydub import AudioSegment
 import io
 import ffmpeg
 
-
 def get_audio_properties(audio_bytes:bytes):
     '''
         Function to extract audio properties
