@@ -35,7 +35,7 @@ def transcribe(audio:UploadFile):
     audio_bytes = audio.file.read()
     audio_properties = get_audio_properties(audio_bytes)
 
-    if audio_properties.get('frame_rate') != 160000:
+    if audio_properties.get('frame_rate') != 16000:
         audio_bytes = convert_audio_compatibility(audio_bytes)
 
     audio_array = np.frombuffer(audio_bytes, np.int16).astype(np.float32).flatten() / 32768.0
