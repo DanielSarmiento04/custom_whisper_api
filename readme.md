@@ -4,27 +4,58 @@ The objective of this repository is *make a basic a functional* speech to text a
 
 ## Setup
 
-1. Create a python environment
+1. Create a python environment/ enable the environment
     
     - Windows
 
-``` 
-    python -m venv .venv
+``` bash
+python -m venv .venv
+.venv/Script/activate
 ```
 
   - Linux/Macos
 
-```
-    python3 -m virtualenv .venv
+```bash
+python3 -m virtualenv .venv
+source .venv/bin/activate
 ```
 
   - Conda (recommended)
 
+```bash
+conda create --name whisper python=3.10 --yes
+conda activate whisper
 ```
-    conda create --name whisper python=3.10 --yes
+
+2. Download dependencies
+
+
+```bash
+# on Ubuntu or Debian
+sudo apt update && sudo apt install ffmpeg
+
+# on Arch Linux
+sudo pacman -S ffmpeg
+
+# on MacOS using Homebrew (https://brew.sh/)
+brew install ffmpeg
+
+# on Windows using Chocolatey (https://chocolatey.org/)
+choco install ffmpeg
+
+# on Windows using Scoop (https://scoop.sh/)
+scoop install ffmpeg
 ```
 
+```
+pip install -r requirements.txt
+```
 
-## load
+3. Run
 
-uvicorn app:app --reload
+```
+    uvicorn app:app --reload
+```
+
+4. Docker
+
