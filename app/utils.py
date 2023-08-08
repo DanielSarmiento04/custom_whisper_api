@@ -37,26 +37,23 @@ def get_audio_properties(audio_bytes: bytes):
         raise RuntimeError(f"Error extracting audio properties: {str(e)}")
 
 
-def convert_audio_compatibility(audio_bytes:bytes):
+def convert_audio_compatibility(audio_bytes:bytes) -> bytes:
     '''
         Function to convert audio to a compatible format
     '''
-    audio_manipulated = audio_bytes
-    # convert from mp4a to pcm_s16le 
-    pipe = ffmpeg.input("pipe:0", threads=0)
-    pipe = ffmpeg.output(pipe, "pipe:1", format="s16le", acodec="pcm_s16le", ac=1, ar="16k")
-    audio_manipulated, _ = pipe.run(input=audio_manipulated, capture_stdout=True, capture_stderr=True)
+    audio_format = "wav"
+    target_sample_width = 2  # 16-bit (2 bytes)
+    target_channels = 1  # Mono audio
+    target_frame_rate = 16000  # 16 kHz sample rate
 
-    return audio_manipulated
+    audio = AudioSegment.from_file(io.BytesIO(audio_bytes))
+    audio = audio.set_sample_width(target_sample_width)
+    audio = audio.set_channels(target_channels)
+    audio = audio.set_frame_rate(target_frame_rate)
 
-def convert_video_to_audio(video_bytes: bytes):
-    '''
-        Function to convert video to audio
+    # Convert audio data to bytes with the target format
+    output_buffer = io.BytesIO()
+    audio.export(output_buffer, format=audio_format)
 
-    '''
+    return output_buffer.getvalue()
 
-    video_manipulated = video_bytes
-
-    pipe = ffmpeg.input("pipe:0", threads=0)
-    pipe = ffmpeg.output(pipe, "pipe:1", format="s16le", acodec="pcm_s16le", ac=1, ar="16k")
-    video_manipulated, _ = pipe.run(input=video_manipulated, capture_stdout=True, capture_stderr=True)
