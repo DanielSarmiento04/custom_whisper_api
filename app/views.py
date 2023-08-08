@@ -9,6 +9,9 @@ from .utils import(
 )
 import numpy as np
 import logging
+from .constants import (
+    ALLOW_CODEC
+)
 
 @app.get("/")
 async def root():
@@ -20,7 +23,6 @@ async def root():
 model = whisper.load_model(
     name="base"
 )
-
 
 @app.post('/transcribe')
 def transcribe(
@@ -41,7 +43,7 @@ def transcribe(
     
     logging.info(f"Audio properties: {audio_properties}")
 
-    if audio_properties.get('codec_name') != 'pcm_s16le':
+    if audio_properties.get('codec_name') != ALLOW_CODEC:
         logging.warning(f"Audio codec not supported: {audio_properties.get('codec_name')}")
 
         audio_bytes = convert_audio_compatibility(audio_bytes)
