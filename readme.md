@@ -59,3 +59,6 @@ pip install -r requirements.txt
 
 4. Docker
 
+```
+    docker run -d --name WhisperAPI -p8000:80 danielsarmiento04/custom_whisper_api:1
+```
