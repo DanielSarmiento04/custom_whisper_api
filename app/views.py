@@ -13,6 +13,11 @@ from .constants import (
     ALLOW_CODEC
 )
 
+from .exceptions import (
+    NoAllowExtensionException
+)
+
+
 @app.get("/")
 async def root():
     '''
@@ -24,11 +29,33 @@ model = whisper.load_model(
     name="base"
 )
 
+@app.post("/get_audio_properties")
+def audio_properties(
+        audio:UploadFile,
+    ):
+    '''
+        Endpoint for get properties audio files
+    '''  
+
+    logging.info(f"Transcribing audio with content type: {audio.content_type}")
+
+    audio_codec = audio.content_type.split("/")[-1] if "/" in audio.content_type else None
+    logging.info(f"Audio codec: {audio_codec}")
+
+    if audio_codec is None:
+        raise NoAllowExtensionException(audio.content_type)
+    
+    audio_bytes = audio.file.read()
+
+    audio_properties = get_audio_properties(audio_bytes)
+    
+    return audio_properties
+
+
 @app.post('/transcribe')
 def transcribe(
         audio:UploadFile,
         language:str="es",
-        # language_to:str="en",
     ):
     '''
         Endpoint for transcribing audio files
@@ -45,7 +72,6 @@ def transcribe(
 
     if audio_properties.get('codec_name') != ALLOW_CODEC:
         logging.warning(f"Audio codec not supported: {audio_properties.get('codec_name')}")
-
         audio_bytes = convert_audio_compatibility(audio_bytes)
 
     audio_array = np.frombuffer(audio_bytes, np.int16).astype(np.float32).flatten() / 32768.0

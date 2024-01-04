@@ -4,7 +4,13 @@ import ffmpeg
 import subprocess
 import json
 
-def get_audio_properties(audio_bytes: bytes):
+from .models.audio_format import (
+    AudioProperties
+)
+
+from pprint import pprint
+
+def get_audio_properties(audio_bytes: bytes) -> AudioProperties:
     '''
         Function to extract audio properties
 
@@ -13,26 +19,36 @@ def get_audio_properties(audio_bytes: bytes):
         
         and adapt to get the properties in json format using a pipe 
     '''
-    try:
-        cmd = [
-            'ffprobe',
-            "-hide_banner",
-            '-show_format', 
-            '-i', 'pipe:0',
-            '-show_streams', '-of', 'json'
-        ]
-        
-        process = subprocess.Popen(
-            cmd,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        
-        stdout, stderr = process.communicate(input=audio_bytes)
-        properties = stderr.decode("utf-8")
 
-        return json.loads(stdout).get("streams")[0]
+    cmd = [
+        'ffprobe',
+        "-hide_banner",
+        '-show_format', 
+        '-i', 'pipe:0',
+        '-show_streams', '-of', 'json'
+    ]
+    
+    process = subprocess.Popen(
+        cmd,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    
+    stdout, stderr = process.communicate(input=audio_bytes)
+
+    try:
+        properties = json.loads(
+            stdout
+        )
+
+        pprint(properties)
+
+        # return json.loads(stdout).get("streams")[0]
+        return AudioProperties(
+            **properties
+        )
+    
     except Exception as e:
         raise RuntimeError(f"Error extracting audio properties: {str(e)}")
 

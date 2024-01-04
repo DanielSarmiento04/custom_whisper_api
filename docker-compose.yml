@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+
+  whisper_api:    
+    build: ./    
+    container_name: whisper_api
+    ports:
+      - "8000:80"
+    networks:
+      - whisper-nt
+
+
+
+networks:
+  whisper-nt:
+    driver: bridge
