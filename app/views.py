@@ -1,7 +1,8 @@
 from . import app
 import whisper
 from fastapi import (
-    UploadFile
+    UploadFile,
+    WebSocket
 )
 from .utils import(
     get_audio_properties,
@@ -11,13 +12,13 @@ import numpy as np
 import logging
 from .constants import (
     ALLOW_CODEC,
-    ALLOW_EXTENSIONS
+    ALLOW_EXTENSIONS,
+    AudioWS
 )
 
 from .exceptions import (
     NoAllowExtensionException
 )
-
 
 from .models import (
     AudioProperties,
@@ -120,3 +121,29 @@ def transcribe(
     return ResponseWhisper(
         **transcription
     )
+
+
+
+@app.websocket(
+    path='/ws'
+)
+async def websocket(websocket:WebSocket):
+    '''
+    
+    '''
+    
+
+    await websocket.accept()
+
+    json = await websocket.receive_json()
+    audio_ws = AudioWS(**json)
+    print(audio_ws)
+
+    while True:
+
+        audio_bytes:bytes = await websocket.receive_bytes()
+
+
+
+
+

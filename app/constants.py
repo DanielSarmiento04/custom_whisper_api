@@ -5,6 +5,9 @@ from whisper.tokenizer import (
 
 import logging
 
+from enum import Enum
+from pydantic import BaseModel
+
 ALLOW_EXTENSIONS = {
     'wav',
     'mp3',
@@ -15,3 +18,14 @@ ALLOW_EXTENSIONS = {
 
 ALLOW_CODEC = 'pcm_s16le'
 
+class Extension(str, Enum):
+    wav = "wav"
+    mp3 = "mp3"
+    mov = "mov"
+    mpeg = "mpeg"
+    x_wav = "x-wav"
+
+
+class AudioWS(BaseModel):
+    extension: Extension
+    sample_rate: int
