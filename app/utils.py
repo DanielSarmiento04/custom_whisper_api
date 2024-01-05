@@ -56,6 +56,13 @@ def get_audio_properties(audio_bytes: bytes) -> AudioProperties:
 def convert_audio_compatibility(audio_bytes:bytes) -> bytes:
     '''
         Function to convert audio to a compatible format
+
+        Args:
+            audio_bytes: bytes of audio file
+
+        Returns:
+            bytes: bytes of audio file converted
+    
     '''
     audio_format = "wav"
     target_sample_width = 2  # 16-bit (2 bytes)

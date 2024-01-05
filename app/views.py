@@ -70,7 +70,9 @@ def transcribe(
     audio_bytes = audio.file.read()
     audio_properties = get_audio_properties(audio_bytes)
 
-    if audio_properties.streams[0].codec_name != ALLOW_CODEC:
+    if  audio_properties.streams[0].codec_name != ALLOW_CODEC or \
+        audio_properties.streams[0].sample_rate != 8000:
+        
         # logging.warning(f"Audio codec not supported: {audio_properties.get('codec_name')}")
         audio_bytes = convert_audio_compatibility(audio_bytes)
 
