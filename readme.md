@@ -1,38 +1,18 @@
-# **Custom Whisper API**
+# **Whisper API**
 
 ## Resume
 The objective of this repository is *make a basic a functional* speech to text api *configurable* and *escalable* . The api use a powerful speech to text model, [whisper](https://github.com/openai/whisper),
 
 ## Table Of Contents
-- [SetUP](#setup)
+- [Set UP](#setup)
 - [Next Steps](#next-steps)
 - [License](#license)
+- [References](#references)
 
 ## Setup
 
-1. Create a python environment/ enable the environment
-- Windows
 
-    ``` bash
-    python -m venv .venv
-    .venv/Script/activate
-    ```
-
-    - Linux/Macos
-
-    ```bash
-    python3 -m virtualenv .venv
-    source .venv/bin/activate
-    ```
-
-    - Conda (recommended)
-
-    ```bash
-    conda create --name websocket python=3.10 --yes
-    conda activate websocket
-    ```
-
-2. Download dependencies
+1. Download dependencies
 
 
     ```bash
@@ -52,16 +32,21 @@ The objective of this repository is *make a basic a functional* speech to text a
     scoop install ffmpeg
     ```
 
+2. Create a python environment / enable the environment
+
     ```
+    conda create --name populations python=3.10 -y
+    conda activate populations
     pip install -r requirements.txt
     ```
+
 
 3. Run
 
     ```
     uvicorn app:app --reload
     ```
-4. Docker
+-  Docker
 
     ```
     docker run -d --name WhisperAPI -p8000:80 danielsarmiento04/custom_whisper_api:1
@@ -74,3 +59,12 @@ The objective of this repository is *make a basic a functional* speech to text a
 ## License
 
 This repository is licensed under the [Apache 2.0](LICENSE) License.
+
+
+## References
+
+[1] Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2022). Robust Speech Recognition via Large-Scale Weak Supervision. doi:10.48550/ARXIV.2212.04356
+
+[2] Ramírez, S. FastAPI [Computer software]. https://github.com/tiangolo/fastapi
+
+[3]
