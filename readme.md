@@ -49,7 +49,7 @@ The objective of this repository is *make a basic a functional* speech to text a
 -  Docker
 
     ```
-    docker run -d --name WhisperAPI -p8000:80 danielsarmiento04/custom_whisper_api:1
+    docker run -d --name WhisperAPI -p8000:80 ghcr.io/danielsarmiento04/custom_whisper_api:latest
     ```
 
 ## Next Steps
