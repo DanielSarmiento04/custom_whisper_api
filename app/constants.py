@@ -9,7 +9,6 @@ ALLOW_EXTENSIONS = {
     'wav',
     'mp3',
     'mov',
-    'mp4',
 }
 
 ALLOW_CODEC = 'pcm_s16le'

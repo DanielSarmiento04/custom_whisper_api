@@ -10,7 +10,8 @@ from .utils import(
 import numpy as np
 import logging
 from .constants import (
-    ALLOW_CODEC
+    ALLOW_CODEC,
+    ALLOW_EXTENSIONS
 )
 
 from .exceptions import (
@@ -39,14 +40,12 @@ def audio_properties(
 
     logging.info(f"Transcribing audio with content type: {audio.content_type}")
 
-    audio_codec = audio.content_type.split("/")[-1] if "/" in audio.content_type else None
-    logging.info(f"Audio codec: {audio_codec}")
+    extension = audio.content_type.split("/")[-1]
 
-    if audio_codec is None:
-        raise NoAllowExtensionException(audio.content_type)
+    if extension not in ALLOW_EXTENSIONS:
+        raise NoAllowExtensionException(f"Extension not allowed: {extension}")
     
     audio_bytes = audio.file.read()
-
     audio_properties = get_audio_properties(audio_bytes)
     
     return audio_properties
