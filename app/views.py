@@ -19,6 +19,11 @@ from .exceptions import (
 )
 
 
+from .models import (
+    AudioProperties,
+    ResponseWhisper
+)
+
 @app.get("/")
 async def root():
     '''
@@ -30,7 +35,10 @@ model = whisper.load_model(
     name="base"
 )
 
-@app.post("/get_audio_properties")
+@app.post(
+    path="/get_audio_properties", 
+    response_model=AudioProperties
+)
 def audio_properties(
         audio:UploadFile,
     ):
@@ -51,7 +59,10 @@ def audio_properties(
     return audio_properties
 
 
-@app.post('/transcribe')
+@app.post(
+    path="/transcribe/",
+    response_model=ResponseWhisper
+)
 def transcribe(
         audio:UploadFile,
         language:str="es",
@@ -73,7 +84,7 @@ def transcribe(
     if  audio_properties.streams[0].codec_name != ALLOW_CODEC or \
         audio_properties.streams[0].sample_rate != 8000:
         
-        # logging.warning(f"Audio codec not supported: {audio_properties.get('codec_name')}")
+        logging.warning(f"Audio codec not supported: {audio_properties.streams[0].codec_name}")
         audio_bytes = convert_audio_compatibility(audio_bytes)
 
     audio_array = np.frombuffer(audio_bytes, np.int16).astype(np.float32).flatten() / 32768.0
@@ -84,6 +95,9 @@ def transcribe(
         # fp16=False, 
         verbose=True,
     )
+
     transcription['text'] = transcription['text'].strip()
 
-    return transcription
+    return ResponseWhisper(
+        **transcription
+    )
