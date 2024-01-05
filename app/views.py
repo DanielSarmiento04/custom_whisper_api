@@ -21,7 +21,8 @@ from .exceptions import (
 
 from .models import (
     AudioProperties,
-    ResponseWhisper
+    ResponseWhisper,
+    Language
 )
 
 @app.get("/")
@@ -65,7 +66,7 @@ def audio_properties(
 )
 def transcribe(
         audio:UploadFile,
-        language:str="es",
+        language:Language = Language.es
     ):
     '''
         Endpoint for transcribing audio files
@@ -73,7 +74,6 @@ def transcribe(
     logging.info(f"Transcribing audio with content type: {audio.content_type}")
 
     extension = audio.content_type.split("/")[-1]
-    print(extension)
 
     if not (extension in ALLOW_EXTENSIONS):
         raise NoAllowExtensionException(f"Extension not allowed: {extension}")
@@ -91,8 +91,7 @@ def transcribe(
 
     transcription = model.transcribe(
         audio_array, 
-        language=language, 
-        # fp16=False, 
+        language=language.value, 
         verbose=True,
     )
 

@@ -42,9 +42,6 @@ def get_audio_properties(audio_bytes: bytes) -> AudioProperties:
             stdout
         )
 
-        pprint(properties)
-
-        # return json.loads(stdout).get("streams")[0]
         return AudioProperties(
             **properties
         )
