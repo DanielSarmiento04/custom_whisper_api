@@ -35,8 +35,8 @@ The objective of this repository is *make a basic a functional* speech to text a
 2. Create a python environment / enable the environment
 
     ```
-    conda create --name populations python=3.10 -y
-    conda activate populations
+    conda create --name whisper python=3.10 -y
+    conda activate whisper
     pip install -r requirements.txt
     ```
 
