@@ -8,6 +8,10 @@ WORKDIR /code
 RUN apt-get update -y
 RUN apt-get install ffmpeg libsm6 libxext6  -y 
 
+# Install pyaudio
+RUN apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
+RUN pip install pyaudio
+
 # Copy the requirements file
 COPY ./requirements.txt /code/requirements.txt
 
