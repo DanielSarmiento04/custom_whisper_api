@@ -31,7 +31,6 @@ class Format(BaseModel):
     nb_programs:int
     format_name:str
     format_long_name:str
-    start_time:str
     probe_score:int
 
 

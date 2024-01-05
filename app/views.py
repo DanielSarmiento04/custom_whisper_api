@@ -42,7 +42,7 @@ def audio_properties(
 
     extension = audio.content_type.split("/")[-1]
 
-    if extension not in ALLOW_EXTENSIONS:
+    if not (extension in ALLOW_EXTENSIONS):
         raise NoAllowExtensionException(f"Extension not allowed: {extension}")
     
     audio_bytes = audio.file.read()
@@ -61,16 +61,17 @@ def transcribe(
     '''
     logging.info(f"Transcribing audio with content type: {audio.content_type}")
 
-    audio_codec = audio.content_type.split("/")[-1] if "/" in audio.content_type else None
-    logging.info(f"Audio codec: {audio_codec}")
+    extension = audio.content_type.split("/")[-1]
+    print(extension)
 
+    if not (extension in ALLOW_EXTENSIONS):
+        raise NoAllowExtensionException(f"Extension not allowed: {extension}")
+    
     audio_bytes = audio.file.read()
     audio_properties = get_audio_properties(audio_bytes)
-    
-    logging.info(f"Audio properties: {audio_properties}")
 
-    if audio_properties.get('codec_name') != ALLOW_CODEC:
-        logging.warning(f"Audio codec not supported: {audio_properties.get('codec_name')}")
+    if audio_properties.streams[0].codec_name != ALLOW_CODEC:
+        # logging.warning(f"Audio codec not supported: {audio_properties.get('codec_name')}")
         audio_bytes = convert_audio_compatibility(audio_bytes)
 
     audio_array = np.frombuffer(audio_bytes, np.int16).astype(np.float32).flatten() / 32768.0
