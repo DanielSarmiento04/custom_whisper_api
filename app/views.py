@@ -39,7 +39,7 @@ model = whisper.load_model(
 
 @app.post(
     path="/get_audio_properties", 
-    response_model=AudioProperties
+    response_model=AudioProperties,
 )
 def audio_properties(
         audio:UploadFile,
@@ -127,22 +127,37 @@ def transcribe(
 @app.websocket(
     path='/ws'
 )
-async def websocket(websocket:WebSocket):
+async def websocket(
+    websocket:WebSocket, 
+    sample_rate:int, 
+    language:str
+):
     '''
+        Websocket connection
     
     '''
     
-
     await websocket.accept()
 
-    json = await websocket.receive_json()
-    audio_ws = AudioWS(**json)
-    print(audio_ws)
 
-    while True:
+    try:
+        while True:
 
-        audio_bytes:bytes = await websocket.receive_bytes()
+            audio_bytes:bytes = await websocket.receive_bytes()
 
+            audio_array = np.frombuffer(audio_bytes, np.int16).astype(np.float32).flatten() / 32768.0
+
+            transcription = model.transcribe(
+                audio_array, 
+                language=language, 
+                verbose=True,
+            )
+            print(transcription)
+
+    except Exception as e:
+        logging.error(e)
+        # if websocket.s
+        # await websocket.close()
 
 
 
