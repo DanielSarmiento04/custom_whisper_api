@@ -1,7 +1,9 @@
 # **Whisper API**
 
-## Resume
-The objective of this repository is *make a basic a functional* speech to text api *configurable* and *escalable* . The api use a powerful speech to text model, [whisper](https://github.com/openai/whisper),
+## Abstract
+
+Whisper API is a *functional ans scalable* speech to text API developed using Python and [whisper](https://github.com/openai/whisper) as base. The objective of this repository is give some easy to configure base api to integrate in some special case, for this purpose is necessary to take that we use a client-side pattern (it's possible to change depending of the case). Also, we give the docker container to simplify the test and the deployment, check de package zone.
+
 
 ## Table Of Contents
 - [Set UP](#setup)
@@ -17,19 +19,19 @@ The objective of this repository is *make a basic a functional* speech to text a
 
     ```bash
     # on Ubuntu or Debian
-    sudo apt update && sudo apt install ffmpeg
+    sudo apt update && sudo apt install ffmpeg  libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev
 
     # on Arch Linux
-    sudo pacman -S ffmpeg
+    sudo pacman -S ffmpeg libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev 
 
     # on MacOS using Homebrew (https://brew.sh/)
-    brew install ffmpeg
+    brew install ffmpeg pyaudio
 
     # on Windows using Chocolatey (https://chocolatey.org/)
-    choco install ffmpeg
+    choco install ffmpeg pyaudio
 
     # on Windows using Scoop (https://scoop.sh/)
-    scoop install ffmpeg
+    scoop install ffmpeg pyaudio
     ```
 
 2. Create a python environment / enable the environment
