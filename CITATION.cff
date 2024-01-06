@@ -1,0 +1,28 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Whisper_api
+message: 'fast, scalable and easy to use speech to text api'
+type: software
+authors:
+  - given-names: Daniel
+    family-names: Sarmiento
+    email: josedanielsarmiento219@gmail.com
+repository-code: 'https://github.com/DanielSarmiento04/whisper_api'
+abstract: >-
+  Whisper API is a functional ans scalable speech to text
+  API developed using Python and whisper as base. The
+  objective of this repository is give some easy to
+  configure base api to integrate in some special case, for
+  this purpose is necessary to take that we use a
+  client-side pattern (it's possible to change depending of
+  the case). Also, we give the docker container to simplify
+  the test and the deployment, check de package zone.
+keywords:
+  - whisper
+  - python
+  - machine learning
+license: Apache-2.0
+version: '1.0'
+date-released: '2024-01-04'
